@@ -9,7 +9,21 @@ var bodyParser = require('body-parser');
 // DataBase setup
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/nodetest1');
+//var db = monk('localhost:27017/nodetest1');
+
+var mongoose = require('mongoose');
+//var uristring = process.env.MONGOLAB_URI ||
+//    'localhost:27017/nodetest1';
+var uristring = 'ds031637.mongolab.com:31637/heroku_app24551371';
+
+mongoose.connect(uristring, function(err, res){
+    if(err){
+        console.log('ERROR connection to ' + uristring + '. ' + err);
+    } else{
+        console.log('Succeeded connected to: ' + uristring);
+    }
+});
+
 
 // Routes setup
 var routes = require('./routes/index');
@@ -67,6 +81,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
