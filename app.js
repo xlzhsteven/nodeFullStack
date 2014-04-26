@@ -15,7 +15,8 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 //var uristring = process.env.MONGOLAB_URI;
 //    'localhost:27017/nodetest1';
-var uristring = 'xlzhsteven:Shspyu652@ds031637.mongolab.com:31637/heroku_app24551371';
+//var uristring = 'xlzhsteven:Shspyu652@ds031637.mongolab.com:31637/heroku_app24551371';
+var uristring = 'mongodb://heroku_app24539318:791umc0qofaffppiaa7is29h0g@ds035498.mongolab.com:35498/heroku_app24539318';
 
 mongoose.connect(uristring, function(err, res){
     if(err){
@@ -30,12 +31,12 @@ var userSchema = new mongoose.Schema({
     email: String
 });
 
-var PUser = mongoose.model('usercollection', userSchema);
+var PUser = mongoose.model('usercollections', userSchema);
 
 // Create user manually
 var johndoe = new PUser ({
-    name: { first: 'John', last: '  Doe   ' },
-    age: 25
+    username: "mongotest1",
+    email: "mongotest1@gmail.com"
 });
 
 // Saving it to the database.
