@@ -23,12 +23,6 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Needs to come before our route definitions, so that they can make use of it
-//app.use(function(req, res, next){
-//    req.db = db;
-//    next();
-//});
-
 app.use('/', routes);
 app.use('/users', users);
 
@@ -39,8 +33,7 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-/// error handlers
-
+// error handlers
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
