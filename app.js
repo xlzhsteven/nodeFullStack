@@ -6,41 +6,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// DataBase setup
-var mongo = require('mongodb');
-//var monk = require('monk');
-//var db = monk('localhost:27017/nodetest1');
-
-// --------------- Connect to MongoLab --------------- //
-var mongoose = require('mongoose');
-var uristring = process.env.MONGOLAB_URI ||
-    'localhost:27017/nodetest1';
-
-mongoose.connect(uristring, function(err, res){
-    if(err){
-        console.log('ERROR connection to ' + uristring + '. ' + err);
-    } else{
-        console.log('Succeeded connected to: ' + uristring);
-    }
-});
-// --------------- Connect to MongoLab --------------- //
-
-var userSchema = new mongoose.Schema({
-    username: String,
-    email: String
-});
-
-var PUser = mongoose.model('usercollections', userSchema);
-
-// Create user manually
-var johndoe = new PUser ({
-    username: "mongotest1",
-    email: "mongotest1@gmail.com"
-});
-
-// Saving it to the database.
-//johndoe.save(function (err) {if (err) console.log ('Error on save!')});
-
 // Routes setup
 var routes = require('./routes/index');
 var users = require('./routes/users');

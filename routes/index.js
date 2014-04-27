@@ -1,6 +1,28 @@
 var express = require('express');
 var router = express.Router();
 
+// --------------- Connect to MongoLab --------------- //
+var mongoose = require('mongoose');
+var uristring = process.env.MONGOLAB_URI ||
+    'localhost:27017/nodetest1';
+
+mongoose.connect(uristring, function(err, res){
+    if(err){
+        console.log('ERROR connection to ' + uristring + '. ' + err);
+    } else{
+        console.log('Succeeded connected to: ' + uristring);
+    }
+});
+
+// --------------- Schema --------------- //
+var userSchema = new mongoose.Schema({
+    username: String,
+    email: String
+});
+
+// --------------- Setup model --------------- //
+var PUser = mongoose.model('usercollections', userSchema);
+
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
@@ -13,39 +35,33 @@ router.get('/helloworld', function(req, res) {
 
 // GET Userlist page
 router.get('/userlist', function(req, res){
-    var db = req.db;
-    var collection = db.get('usercollection');
-    collection.find({},{},function(e, docs){
+    PUser.find({},{},function(e, docs){
         res.render('userlist', {"userlist": docs});
     });
 });
 
 // Add new user page
-router.get('/newuser', function(req, res){
-    res.render('newuser', {title: 'Add New User'});
+router.get('/addnewuser', function(req, res){
+    res.render('addnewuser', {title: 'Add New User'});
 });
 
 /* POST to Add User Service */
-router.post('/adduser', function(req, res) {
-
-    // Set our internal DB variable
-    var db = req.db;
+router.post('/adduseraction', function(req, res) {
 
     // Get our form values. These rely on the "name" attributes
     var userName = req.body.username;
     var userEmail = req.body.useremail;
 
-    // Set our collection
-    var collection = db.get('usercollection');
+    // Create user manually
+    var newuser = new PUser ({
+        username: userName,
+        email: userEmail
+    });
 
-    // Submit to the DB
-    collection.insert({
-        "username" : userName,
-        "email" : userEmail
-    }, function (err, doc) {
+    // Save user to database
+    newuser.save(function (err) {
         if (err) {
-            // If it failed, return error
-            res.send("There was a problem adding the information to the database.");
+            console.log ('Error on save!')
         }
         else {
             // If it worked, set the header so the address bar doesn't still say /adduser
