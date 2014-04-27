@@ -14,14 +14,14 @@ router.get('/helloworld', function(req, res) {
 
 // GET Userlist page
 router.get('/userlist', function(req, res){
-    db.PUser.find({}, {}, function (e, docs) {
+    db.emailUserModel.find({}, {}, function (e, docs) {
         res.render('userlist', {"userlist": docs});
     });
 });
 
 // Add new user page
-router.get('/addnewuser', function(req, res){
-    res.render('addnewuser', {title: 'Add New User'});
+router.get('/userDatabaseModification', function (req, res) {
+    res.render('userDatabaseModification', {title1: 'Add New User', title2: "Remove User by Name"});
 });
 
 /* POST to Add User Service */
@@ -31,7 +31,7 @@ router.post('/adduseraction', function(req, res) {
     var userEmail = req.body.useremail;
 
     // Create user manually
-    var newuser = new db.PUser({
+    var newuser = new db.EmailUserModel({
         username: userName,
         email: userEmail
     });
@@ -46,6 +46,28 @@ router.post('/adduseraction', function(req, res) {
             res.location("userlist");
             // And forward to success page
             res.redirect("userlist");
+        }
+    });
+});
+
+/* POST to Remove User by Name */
+router.post('/removeuseraction', function (req, res) {
+//    Get userName from form
+    var userName = req.body.removename;
+    db.emailUserModel.findOne({username: userName}, function (err, doc) {
+        if (!err) {
+            console.log(doc);
+            if (doc === null) {
+                res.redirect("userlist");
+                console.log(userName + " does not exist in the database");
+//                TODO: Add error handling when user doesn't exist
+            } else {
+                doc.remove();
+                res.redirect("userlist");
+                console.log(userName + " has been successfully removed from the database");
+            }
+        } else {
+            console.log(err);
         }
     });
 });

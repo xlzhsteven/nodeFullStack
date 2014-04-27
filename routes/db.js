@@ -12,13 +12,13 @@ mongoose.connect(uristring, function (err, res) {
 });
 
 // --------------- Schema --------------- //
-var userSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
     username: String,
     email: String
 });
 
 // --------------- Setup model --------------- //
-var PUser = mongoose.model('usercollections', userSchema);
+var EmailUserModel = mongoose.model('usercollections', UserSchema);
 
 // --------------- Expose PUser variable --------------- //
-module.exports.PUser = PUser;
+module.exports.EmailUserModel = EmailUserModel;

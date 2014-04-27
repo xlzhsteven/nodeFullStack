@@ -1,0 +1,12 @@
+extends layout
+block content
+    h1= title1
+    form#formAddUser(name="adduser",method="post",action="/adduseraction")
+        input#inputUserName(type="text", placeholder="username", name="username")
+        input#inputUserEmail(type="text", placeholder="useremail", name="useremail")
+        button#btnSubmit(type="submit") submit
+
+    h1= title2
+    form#formRemoveUser(name="removeUser",method="post",action="/removeuseraction")
+        input#inputUserName(type="text", placeholder="username", name="removename")
+        button#btnSubmin(type="submit") submit
