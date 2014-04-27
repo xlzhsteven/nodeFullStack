@@ -14,7 +14,7 @@ router.get('/helloworld', function(req, res) {
 
 // GET Userlist page
 router.get('/userlist', function(req, res){
-    db.emailUserModel.find({}, {}, function (e, docs) {
+    db.EmailUserModel.find({}, {}, function (e, docs) {
         res.render('userlist', {"userlist": docs});
     });
 });
@@ -54,7 +54,7 @@ router.post('/adduseraction', function(req, res) {
 router.post('/removeuseraction', function (req, res) {
 //    Get userName from form
     var userName = req.body.removename;
-    db.emailUserModel.findOne({username: userName}, function (err, doc) {
+    db.EmailUserModel.findOne({username: userName}, function (err, doc) {
         if (!err) {
             console.log(doc);
             if (doc === null) {
